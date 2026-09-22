@@ -25,7 +25,9 @@ bool verifier_controle(paquet_t *pdata) {
     return generer_controle(pdata)==pdata->somme_ctrl;
 }
 
-
+int inc(int num, int mod) {
+    return (num+1)%mod;
+}
 
 /*--------------------------------------*/
 /* Fonction d'inclusion dans la fenetre */

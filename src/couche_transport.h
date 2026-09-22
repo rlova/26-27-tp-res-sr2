@@ -41,6 +41,7 @@ typedef struct paquet_s {
 
 int generer_controle(paquet_t *pdata);
 bool verifier_controle(paquet_t *pdata);
+int inc(int num, int mod);
 
 /*--------------------------------------*
 * Fonction d'inclusion dans la fenetre *
