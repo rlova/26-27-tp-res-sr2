@@ -2,6 +2,7 @@
 #define __COUCHE_TRANSPORT_H__
 
 #include <stdint.h> /* uint8_t */
+#include <stdbool.h>
 
 /* Nombre d'octets max dans le champ info du paquet */
 #define MAX_INFO 124
@@ -37,6 +38,9 @@ typedef struct paquet_s {
 /* ************************************** */
 /* Fonctions utilitaires couche transport */
 /* ************************************** */
+
+int generer_controle(paquet_t pdata);
+bool verifier_controle(paquet_t pdata);
 
 /*--------------------------------------*
 * Fonction d'inclusion dans la fenetre *
