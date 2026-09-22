@@ -44,9 +44,9 @@ int main(int argc, char* argv[])
             /* remise des données à la couche application */
             fin = vers_application(message, pdata.lg_info);
 
-            pdata.type = ACK;
+            pack.type = ACK;
         } else {
-            pdata.type = NACK;
+            pack.type = NACK;
         }
 
         vers_reseau(&pack);
