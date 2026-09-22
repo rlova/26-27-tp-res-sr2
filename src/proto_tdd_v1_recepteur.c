@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
         // attendre(); /* optionnel ici car de_reseau() fct bloquante */
         de_reseau(&pdata);
         
-        if (verifier_controle(pdata)) {
+        if (verifier_controle(&pdata)) {
 
             /* extraction des donnees du paquet recu */
             for (int i=0; i<pdata.lg_info; i++) {

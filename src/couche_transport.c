@@ -9,30 +9,20 @@
 
 // RAJOUTER VOS FONCTIONS DANS CE FICHIER...
 
-int generer_controle(paquet_t pdata) {
+int generer_controle(paquet_t *pdata) {
     int somme = 0;
-    somme ^= pdata.lg_info;
-    somme ^= pdata.num_seq;
+    somme ^= pdata->type;
+    somme ^= pdata->lg_info;
+    somme ^= pdata->num_seq;
 
-    for (int i=0; i<pdata.lg_info; i++) {
-        somme ^= pdata.info[i];
+    for (int i=0; i<pdata->lg_info; i++) {
+        somme ^= pdata->info[i];
     }
     return somme;
 }
 
-bool verifier_controle(paquet_t pdata) {
-    int somme = 0;
-    somme ^= pdata.lg_info;
-    somme ^= pdata.num_seq;
-
-    for (int i=0; i<pdata.lg_info; i++) {
-        somme ^= pdata.info[i];
-    }
-
-    if (somme==pdata.somme_ctrl) {
-        return true;
-    }
-    return false;
+bool verifier_controle(paquet_t *pdata) {
+    return generer_controle(pdata)==pdata->somme_ctrl;
 }
 
 

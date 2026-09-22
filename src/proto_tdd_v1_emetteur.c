@@ -29,7 +29,6 @@ int main(int argc, char* argv[])
 
     /* lecture de donnees provenant de la couche application */
     de_application(message, &taille_msg);
-    pdata.somme_ctrl = generer_controle(pdata);
 
     /* tant que l'émetteur a des données à envoyer */
     while ( taille_msg != 0 ) {
@@ -40,6 +39,7 @@ int main(int argc, char* argv[])
         }
         pdata.lg_info = taille_msg;
         pdata.type = DATA;
+        pdata.somme_ctrl = generer_controle(&pdata);
 
         do {
             /* remise à la couche reseau */
@@ -48,6 +48,7 @@ int main(int argc, char* argv[])
             de_reseau(&pack);
 
         } while (pack.type==NACK);
+        
         /* lecture des donnees suivantes de la couche application */
         de_application(message, &taille_msg);
     }
