@@ -1,8 +1,8 @@
 /*************************************************************
-* proto_tdd_v2 -  récepteur                                  *
-* TRANSFERT DE DONNEES  v2                                   *
+* proto_tdd_v3 -  récepteur                                  *
+* TRANSFERT DE DONNEES  v3                                   *
 *                                                            *
-* Protocole avec contrôle de flux "Stop-and-Wait" ARQ        *
+* Protocole avec contrôle de flux "Go-Back-N" ARQ            *
 *                                                            *
 *                                                            *
 * Université de Toulouse / FSI / Dpt d'informatique          *
@@ -23,7 +23,12 @@ int main(int argc, char* argv[])
     paquet_t pack;                   /* paquet pour stocker les acquittements */
     int fin = 0;                     /* condition d'arrêt */
     int paquet_attendu = 0;
+
+    /* ACK du dernier paquet correct reçu : avant le 1er paquet,
+    on met 7 (hors fenêtre de l'émetteur, donc ignoré) */
     pack.type = ACK;
+    pack.lg_info = 0;
+    pack.num_seq = 16;
 
     init_reseau(RECEPTION);
 
@@ -46,10 +51,14 @@ int main(int argc, char* argv[])
                 /* remise des données à la couche application */
                 fin = vers_application(message, pdata.lg_info);
 
-                paquet_attendu = inc(paquet_attendu,2);
+                pack.num_seq = paquet_attendu;  // on acquitte ce paquet
+                paquet_attendu = inc(paquet_attendu,16); // le même que l'emetteur
             }
+            /* hors séquence : pack.num_seq contient encore le dernier
+            paquet correct reçu, donc on le ré-acquitte */
+            pack.somme_ctrl = generer_controle(&pack);
             vers_reseau(&pack);
-        }
+        } // on ignore un paquet reçu avec erreur
     }
 
     printf("[TRP] Fin execution protocole transport.\n");

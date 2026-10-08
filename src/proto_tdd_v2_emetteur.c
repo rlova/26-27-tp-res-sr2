@@ -1,9 +1,9 @@
 /*************************************************************
-* proto_tdd_v1 -  émetteur                                   *
-* TRANSFERT DE DONNEES  v1                                   *
+* proto_tdd_v2 -  émetteur                                   *
+* TRANSFERT DE DONNEES  v2                                   *
 *                                                            *
-* Protocole avec contrôle de flux "Stop-and-Wait",           *
-* avec temporisateur                                         *
+* Protocole avec contrôle de flux "Stop-and-Wait" ARQ        *
+*                                                            *
 *                                                            *
 * Université de Toulouse / FSI / Dpt d'informatique          *
 **************************************************************/
@@ -42,15 +42,15 @@ int main(int argc, char* argv[])
         pdata.lg_info = taille_msg;
         pdata.type = DATA;
         pdata.num_seq = prochain_paquet;
-        pdata.somme_ctrl = generer_controle(&pdata);
+        pdata.somme_ctrl = generer_controle(&pdata); 
 
         do {
             /* remise à la couche reseau */
             vers_reseau(&pdata);
-            depart_temporisateur();
+            depart_temporisateur(100);
             evt = attendre();
-
         } while (evt!=-1);
+
         de_reseau(&pack);
         arret_temporisateur();
         prochain_paquet = inc(prochain_paquet,2);
