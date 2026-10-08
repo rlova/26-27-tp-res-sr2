@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     on met 7 (hors fenêtre de l'émetteur, donc ignoré) */
     pack.type = ACK;
     pack.lg_info = 0;
-    pack.num_seq = 16;
+    pack.num_seq = 15;
 
     init_reseau(RECEPTION);
 

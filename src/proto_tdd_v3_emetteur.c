@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     } 
     if (argc==2) {
         taille_fenetre = atoi(argv[1]);
-        if (taille_fenetre<1 && taille_fenetre>=16) {
+        if (taille_fenetre<1 || taille_fenetre>=16) {
             printf("Erreur taille fenetre doit être inférieure à 16\n");
             return 1;
         }
@@ -48,8 +48,8 @@ int main(int argc, char* argv[])
     de_application(message, &taille_msg);
 
     /* tant que l'émetteur a des données à envoyer */
-    while ( taille_msg != 0 ) {
-        if (dans_fenetre(borne_inf,curseur,taille_fenetre)) {
+    while ( taille_msg != 0 || borne_inf!=curseur ) {
+        if (taille_msg!=0 && dans_fenetre(borne_inf,curseur,taille_fenetre)) {
 
             /* construction paquet */
             for (int i=0; i<taille_msg; i++) {
@@ -65,8 +65,10 @@ int main(int argc, char* argv[])
 
             if (borne_inf==curseur) {
                 depart_temporisateur(100);
-                curseur = inc(curseur,8);
-            } else {
+            }
+            curseur = inc(curseur,16);
+            de_application(message,&taille_msg);
+        } else {
                 evt = attendre();
                 if (evt==PAQUET_RECU) { // 
                     de_reseau(&pack);
@@ -85,9 +87,8 @@ int main(int argc, char* argv[])
                     }
                 }
             }
-        }
         /* lecture des donnees suivantes de la couche application */
-        de_application(message, &taille_msg);
+        // de_application(message, &taille_msg);
     }
 
     printf("[TRP] Fin execution protocole transfert de donnees (TDD).\n");
