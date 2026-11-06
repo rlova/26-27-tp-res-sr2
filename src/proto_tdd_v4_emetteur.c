@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
                     }
                 } else {
                     /* time out, evt = num temporisateur expiré = num paquet */
-                    vers_reseau(&tab_p[i]);
+                    vers_reseau(&tab_p[evt]);
                     depart_temporisateur(evt, 100);
                 }
             }
