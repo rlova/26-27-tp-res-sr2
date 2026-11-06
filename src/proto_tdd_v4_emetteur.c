@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
         taille_fenetre = atoi(argv[1]);
         /* fenêtre max : la moitié de la capacité de numérotation */
         if (taille_fenetre<1 || taille_fenetre>=16) {
-            printf("Erreur taille fenetre doit être comprise entre 1 et %d\n",SEQ_NUM_SIZE/2);
+            printf("Erreur : taille fenetre doit être comprise entre 1 et %d\n",SEQ_NUM_SIZE/2);
             return 1;
         }
     }
@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
                 } else {
                     /* time out, evt = num temporisateur expiré = num paquet */
                     vers_reseau(&tab_p[evt]);
-                    depart_temporisateur(evt, 100);
+                    depart_temporisateur_num(evt, 100);
                 }
             }
         /* lecture des donnees suivantes de la couche application */
